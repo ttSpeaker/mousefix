@@ -1,0 +1,59 @@
+.gitignore
+  s_6434512ec93381::t_b42e1da629b215 1-3
+Package.swift
+  s_6434512ec93381::t_b9501d4f56c7b2 1-27
+Sources/MouseFix/main.swift
+  s_6434512ec93381::t_704dd248f05143 1-93
+Sources/MouseFixCore/ActionSimulator.swift
+  s_6434512ec93381::t_5e2c212c29eae2 1-50
+Sources/MouseFixCore/AppConfig.swift
+  s_6434512ec93381::t_0358eeadaa7938 1-39
+Sources/MouseFixCore/ButtonAction.swift
+  s_6434512ec93381::t_c6caa5e9894771 1-51
+Sources/MouseFixCore/ButtonMapping.swift
+  s_6434512ec93381::t_ba7a2c3278092a 1-21
+Sources/MouseFixCore/ButtonStateMachine.swift
+  s_6434512ec93381::t_1afa70f686e188 1-61
+Sources/MouseFixCore/EventTapFilter.swift
+  s_6434512ec93381::t_dec918c65f2cfa 1-41
+Sources/MouseFixCore/EventTapManager.swift
+  s_6434512ec93381::t_55567d60695da5 1-67
+Sources/MouseFixCore/LaunchdService.swift
+  s_6434512ec93381::t_e946ff2685cc3e 1-46
+Sources/MouseFixCore/Permission.swift
+  s_6434512ec93381::t_d1c55dbaaf3aeb 1-12
+Sources/MouseFixCore/ScrollConfig.swift
+  s_6434512ec93381::t_431df49adeca3b 1-17
+Sources/MouseFixCore/ScrollEventPoster.swift
+  s_6434512ec93381::t_42c1ee236fb550 1-44
+Sources/MouseFixCore/SmoothScrollEngine.swift
+  s_6434512ec93381::t_30ca52d467098a 1-73
+Sources/MouseFixCore/SmoothScrollPhysics.swift
+  s_6434512ec93381::t_53973bf4cc8088 1-52
+Tests/MouseFixTests/AppConfigTests.swift
+  s_6434512ec93381::t_e91947a3480c24 1-24
+Tests/MouseFixTests/ButtonStateMachineTests.swift
+  s_6434512ec93381::t_0fd363a805f6d2 1-40
+Tests/MouseFixTests/EventTapFilterTests.swift
+  s_6434512ec93381::t_0725f8ba49afa5 1-51
+Tests/MouseFixTests/ScrollEventPosterTests.swift
+  s_6434512ec93381::t_91cf7dc641bbad 1-32
+Tests/MouseFixTests/SmoothScrollPhysicsTests.swift
+  s_6434512ec93381::t_c69b1b7367b170 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "08ecb13ba4cfc44ced4a3337b4408af15ffbf210",
+  "prompts": {},
+  "sessions": {
+    "s_6434512ec93381": {
+      "agent_id": {
+        "tool": "gemini",
+        "id": "301538eb-b23f-46bf-9439-013fdba7869b",
+        "model": "gemini-3.1-flash-lite"
+      },
+      "human_author": "Salvador Serruya <js.serruya@gmail.com>"
+    }
+  }
+}
