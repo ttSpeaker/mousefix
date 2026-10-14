@@ -8,6 +8,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "mousefix", targets: ["MouseFix"]),
+        .executable(name: "MouseFixApp", targets: ["MouseFixApp"]),
         .library(name: "MouseFixCore", targets: ["MouseFixCore"])
     ],
     targets: [
@@ -17,6 +18,10 @@ let package = Package(
         ),
         .executableTarget(
             name: "MouseFix",
+            dependencies: ["MouseFixCore"]
+        ),
+        .executableTarget(
+            name: "MouseFixApp",
             dependencies: ["MouseFixCore"]
         ),
         .testTarget(

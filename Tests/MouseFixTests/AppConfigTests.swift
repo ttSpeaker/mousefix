@@ -6,7 +6,7 @@ final class AppConfigTests: XCTestCase {
         var config = AppConfig()
         config.scroll.stepSize = 42.0
         config.scroll.invertDirection = false
-        config.buttons[3] = ButtonMapping(button: 3, clickAction: .smartZoom, holdAction: .showDesktop)
+        config.buttons[3] = ButtonMapping(button: 3, clickAction: .moveRightSpace, holdAction: .appExpose)
 
         let encoder = JSONEncoder()
         let data = try encoder.encode(config)

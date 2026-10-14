@@ -10,6 +10,12 @@ public struct ButtonTracker: Sendable {
     }
 }
 
+public enum ButtonReleaseResult: Equatable, Sendable {
+    case action(ButtonAction)
+    case defaultClick
+    case none
+}
+
 public final class ButtonStateMachine {
     public var mappings: [Int: ButtonMapping]
     public var holdDuration: TimeInterval
@@ -23,23 +29,30 @@ public final class ButtonStateMachine {
         self.holdDuration = holdDuration
     }
 
-    public func handleInput(button: Int, isDown: Bool, atTime: TimeInterval) -> ButtonAction? {
-        guard let mapping = mappings[button] else { return nil }
+    public func handleInput(button: Int, isDown: Bool, atTime: TimeInterval) -> ButtonReleaseResult {
+        guard let mapping = mappings[button] else { return .defaultClick }
 
         if isDown {
             tracking[button] = ButtonTracker(downTime: atTime, hadEffect: false)
-            return nil
+            return .none
         } else {
-            guard let tracker = tracking.removeValue(forKey: button) else { return nil }
+            guard let tracker = tracking.removeValue(forKey: button) else { return .defaultClick }
             if !tracker.hadEffect {
                 let duration = atTime - tracker.downTime
                 if duration >= holdDuration {
-                    return mapping.holdAction
+                    if let hold = mapping.holdAction {
+                        return .action(hold)
+                    }
+                    return .none
                 } else {
-                    return mapping.clickAction
+                    if let click = mapping.clickAction {
+                        return .action(click)
+                    } else {
+                        return .defaultClick
+                    }
                 }
             }
-            return nil
+            return .none
         }
     }
 

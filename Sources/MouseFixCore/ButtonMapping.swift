@@ -14,8 +14,8 @@ public struct ButtonMapping: Equatable, Sendable, Codable {
     public static var defaults: [Int: ButtonMapping] {
         [
             2: ButtonMapping(button: 2, clickAction: nil, holdAction: .missionControl), // Middle click
-            3: ButtonMapping(button: 3, clickAction: .swipeBack, holdAction: .missionControl), // Back button
-            4: ButtonMapping(button: 4, clickAction: .swipeForward, holdAction: .smartZoom) // Forward button
+            3: ButtonMapping(button: 3, clickAction: .moveRightSpace, holdAction: .appExpose), // Button 4 (Back)
+            4: ButtonMapping(button: 4, clickAction: .moveLeftSpace, holdAction: .missionControl) // Button 5 (Forward)
         ]
     }
 }

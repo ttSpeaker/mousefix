@@ -39,6 +39,7 @@ public struct ScrollEventPoster {
         guard let event = createEvent(deltaY: deltaY, deltaX: deltaX, phase: phase, momentumPhase: momentumPhase) else {
             return
         }
-        event.post(tap: .cghidEventTap)
+        // Post directly to user session matching Mac Mouse Fix (CGEventPost(1, ...))
+        event.post(tap: .cgSessionEventTap)
     }
 }

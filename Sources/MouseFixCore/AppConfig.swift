@@ -21,11 +21,13 @@ public struct AppConfig: Equatable, Sendable, Codable {
     }
 
     public static func load(from url: URL = defaultConfigURL) -> AppConfig {
-        guard let data = try? Data(contentsOf: url),
-              let config = try? JSONDecoder().decode(AppConfig.self, from: data) else {
-            return AppConfig()
+        if let data = try? Data(contentsOf: url),
+           let config = try? JSONDecoder().decode(AppConfig.self, from: data) {
+            return config
         }
-        return config
+        let defaultConfig = AppConfig()
+        try? defaultConfig.save(to: url)
+        return defaultConfig
     }
 
     public func save(to url: URL = defaultConfigURL) throws {
