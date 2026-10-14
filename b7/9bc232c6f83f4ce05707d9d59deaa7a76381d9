@@ -1,0 +1,30 @@
+Sources/MouseFixApp/AppState.swift
+  s_51580e0e5f22f5::t_1d33e5ca5b6be4 47
+  s_51580e0e5f22f5::t_86fc89774fa5e0 25-31
+README.md
+  s_51580e0e5f22f5::t_7e498b6970110c 3-5,9-25,27-28,31-32,34-36,39-74,76-77,79-88,91,93-98,100-102,105,107,109-114,116-123
+Sources/MouseFixApp/SettingsView.swift
+  s_51580e0e5f22f5::t_daeeaa2b7bd239 164-177
+Sources/MouseFixCore/LaunchAtLogin.swift
+  s_51580e0e5f22f5::t_ff1bcfaa8f7591 1-36
+Sources/MouseFixApp/MouseFixApp.swift
+  s_51580e0e5f22f5::t_64724d1d7d37d6 7-8,12,22-28,32-41,43-52,67-83,114
+  s_51580e0e5f22f5::t_c93f1144f30415 6,9,14-18,85-91,94-101,113,115-121
+  s_51580e0e5f22f5::t_e9cba784f30278 5,29-31,42,53-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b79bc232c6f83f4ce05707d9d59deaa7a76381d9",
+  "prompts": {},
+  "sessions": {
+    "s_51580e0e5f22f5": {
+      "agent_id": {
+        "tool": "gemini",
+        "id": "ac483aae-29b2-4f2d-a617-dceb2356b9b8",
+        "model": "gemini-3.5-flash"
+      },
+      "human_author": "Salvador Serruya <js.serruya@gmail.com>"
+    }
+  }
+}
