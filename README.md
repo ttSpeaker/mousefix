@@ -1,52 +1,124 @@
 # MouseFix
 
-A lightweight macOS utility inspired by Mac Mouse Fix, built using Swift and reverse-engineered architecture patterns via REA.
+A lightweight, native macOS mouse utility inspired by **Mac Mouse Fix**, built with Swift, SwiftUI, and reverse-engineered architecture patterns via REA.
+
+---
 
 ## Features
 
-- **Natural Smooth Scrolling:** Intercepts discrete stepped mouse wheel ticks at the `CGEventTap` layer and synthesizes continuous, trackpad-like subpixel scroll events with physics-based deceleration and momentum.
-- **Direction Inversion:** Allows natural scrolling direction on mouse wheels independently of macOS trackpad preferences.
-- **Shift-to-Horizontal:** Swaps vertical wheel deltas to horizontal scrolling when Shift is held.
-- **Spaces & Window Navigation (Default Mappings):**
-  - **Button 4 (Back):** Click moves Right a space (`Ctrl + Right`); Hold opens Application Windows (App Exposé).
-  - **Button 5 (Forward):** Click moves Left a space (`Ctrl + Left`); Hold opens Mission Control (`Ctrl + Up`).
-  - **Button 3 (Middle):** Hold triggers Mission Control.
-- **Native SwiftUI Settings UI:** Visual configuration window with real-time editing of button mappings, scroll speed, and hold duration.
-- **Zero Kernel Extensions / Low Footprint:** Operates purely through CoreGraphics event taps and native gesture event simulation (`kCGEventGesture`).
-- **Background Daemon Support:** Can be installed directly as a user LaunchAgent via `--install-daemon`.
+- **Smooth Trackpad Scrolling:** Intercepts stepped mouse wheel clicks at `kCGHIDEventTap` and synthesizes continuous, inertia-driven trackpad scroll events (`isContinuous == 1`) with momentum and subpixel accumulation.
+- **Independent Natural Scrolling:** Invert mouse wheel direction without affecting your built-in trackpad settings.
+- **Horizontal Scroll via Shift:** Hold `Shift` while scrolling to pan horizontally.
+- **Desktop Spaces & Window Gestures:**
+  - **Button 4 (Thumb - Back):** Click switches to **Right Desktop Space**; Hold opens **Application Windows (App Exposé)**.
+  - **Button 5 (Thumb - Forward):** Click switches to **Left Desktop Space**; Hold opens **Mission Control**.
+  - **Button 3 (Middle Click):** Click acts as genuine **Middle Click** (opens/closes browser tabs); Hold triggers **Mission Control**.
+  - Powered by macOS `SkyLight` Symbolic Hotkeys (`CGSSetSymbolicHotKeyValue`) for instant, reliable WindowServer desktop transitions.
+- **Menu Bar Companion:** Lives unobtrusively in your macOS Menu Bar with live status, fast access to settings, and quit options.
+- **Background Execution:** Closing the settings window hides it to the background while the interception engine keeps running.
+- **Launch on Startup:** Built-in toggle supporting native macOS Login Items (`SMAppService`) and user `LaunchAgent`.
+- **Live Input Monitor:** Real-time feedback bar identifying mouse buttons, click/hold states, and wheel movements.
+- **Zero Kernel Extensions:** 100% user-space CoreGraphics event tap architecture.
 
-## Building & Testing
+---
+
+## Quick Start: Building & Launching the App
+
+### 1. Build and Package `MouseFix.app`
+Run the bundling script to compile the release binary, package it into `MouseFix.app`, and apply local code-signing:
 
 ```bash
-# Run unit tests
-swift test
+bash scripts/bundle-app.sh
+```
 
+### 2. Launch MouseFix
+```bash
+open MouseFix.app
+```
+
+---
+
+## Granting Accessibility Permissions
+
+macOS requires **Accessibility** access for mouse utilities to intercept hardware wheel and button events:
+
+1. When you first launch `MouseFix.app`, macOS will prompt for Accessibility permissions (or click **"Open Settings"** on the banner in MouseFix).
+2. Go to **System Settings → Privacy & Security → Accessibility**.
+3. Toggle the switch next to **MouseFix** to **ON**.
+4. The live indicator at the top of the MouseFix window will turn **🟢 Active**.
+
+> **Note for Local Development:**  
+> When rebuilding an ad-hoc signed app locally, macOS binds permissions to the exact binary hash (`cdhash`). If you recompile the app, simply toggle the switch **OFF and back ON** in System Settings once so macOS registers the new binary.
+
+---
+
+## Running in the Background & Menu Bar
+
+- **Closing the Window:** Clicking the red `(X)` close button hides the window without stopping MouseFix. The mouse interception and smooth scrolling remain fully active.
+- **Menu Bar Icon:** Click the mouse icon in your macOS top menu bar to:
+  - Check current status (`🟢 Active` / `🔴 Needs Permission`).
+  - Open Settings (`Cmd + ,`).
+  - Toggle **Launch at Login**.
+  - **Quit MouseFix** (`Cmd + Q`).
+- **Restoring Settings:** Re-open the window by clicking the Menu Bar icon and selecting **Open Settings...**, or by clicking the app icon in Finder/Dock.
+
+---
+
+## Launch on Startup
+
+You can set MouseFix to start automatically upon login using either method:
+
+### In the Graphical App
+1. Open **MouseFix Settings → General** (or click the Menu Bar icon).
+2. Enable the **"Launch MouseFix on System Startup"** toggle.
+3. This registers MouseFix directly into **System Settings → General → Login Items & Extensions**.
+
+### Via the CLI Daemon (Headless)
+If you prefer running MouseFix purely as a background headless daemon:
+```bash
 # Build release binaries
 swift build -c release
+
+# Install and start the LaunchAgent daemon
+./.build/release/mousefix --install-daemon
+launchctl load ~/Library/LaunchAgents/com.user.mousefix.plist
+
+# Stop and uninstall the daemon
+launchctl unload ~/Library/LaunchAgents/com.user.mousefix.plist
+./.build/release/mousefix --uninstall-daemon
 ```
 
-## Running the Graphical Settings App
+---
 
-```bash
-# Launch the SwiftUI settings UI
-./.build/release/MouseFixApp
+## Configuration
+
+MouseFix stores configuration in human-readable JSON format at:
+```
+~/.config/mousefix/config.json
 ```
 
-## Running the CLI Daemon
-
+You can view or edit it directly from the CLI:
 ```bash
-# Run in foreground (requires Accessibility permissions)
-./.build/release/mousefix
-
-# View current JSON configuration
+# Display active JSON configuration
 ./.build/release/mousefix --config
 
-# Open configuration in your default editor
+# Open config.json in your default editor
 ./.build/release/mousefix --edit-config
+```
 
-# Install as background LaunchAgent login item
-./.build/release/mousefix --install-daemon
+### Default Button Mapping Reference
+| Button Number | Hardware Physical Key | Click Action | Hold Action (> 0.3s) |
+| :--- | :--- | :--- | :--- |
+| **Button 2** | Button 3 (Middle Click / Wheel) | Native Middle Click | Mission Control |
+| **Button 3** | Button 4 (Thumb Back / Lower) | Move Right a Space | App Exposé |
+| **Button 4** | Button 5 (Thumb Forward / Upper) | Move Left a Space | Mission Control |
 
-# Remove LaunchAgent
-./.build/release/mousefix --uninstall-daemon
+---
+
+## Testing
+
+MouseFix includes an automated XCTest suite verifying physics deceleration, subpixel accumulation, event tap classification, state machines, and serialization:
+
+```bash
+swift test
 ```

@@ -22,6 +22,13 @@ public final class AppState: ObservableObject {
         }
     }
     @Published public var isAccessibilityGranted: Bool = false
+    @Published public var launchAtLogin: Bool = false {
+        didSet {
+            if launchAtLogin != LaunchAtLogin.isEnabled {
+                LaunchAtLogin.isEnabled = launchAtLogin
+            }
+        }
+    }
     @Published public var lastDetectedInput: String = "Waiting for mouse input..."
     @Published public var lastDetectedButton: Int? = nil
 
@@ -37,6 +44,7 @@ public final class AppState: ObservableObject {
         self.config = loadedConfig
         self.scrollEngine = SmoothScrollEngine(config: loadedConfig.scroll)
         self.buttonStateMachine = ButtonStateMachine(mappings: loadedConfig.buttons, holdDuration: loadedConfig.holdDuration)
+        self.launchAtLogin = LaunchAtLogin.isEnabled
         
         // Initial attempt to start service
         startService()

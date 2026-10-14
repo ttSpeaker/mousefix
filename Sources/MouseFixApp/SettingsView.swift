@@ -161,11 +161,20 @@ public struct SettingsView: View {
                 Toggle("Enable Interception", isOn: $appState.isEnabled)
             }
 
-            Section(header: Text("Startup & Preferences")) {
-                Button("Install as Login Item (LaunchAgent)") {
-                    let path = Bundle.main.executablePath ?? CommandLine.arguments[0]
-                    try? LaunchdService.install(executablePath: path)
-                }
+            Section(header: Text("Startup")) {
+                Toggle("Launch MouseFix on System Startup", isOn: $appState.launchAtLogin)
+                Text("Registered with macOS Login Items. MouseFix will launch automatically when you log in.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Section(header: Text("Background Execution")) {
+                Text("Closing this settings window keeps MouseFix running smoothly in your Menu Bar. To quit completely, click the mouse icon in your top menu bar and select Quit MouseFix.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Section(header: Text("Configuration")) {
                 Button("Open config.json in Editor") {
                     NSWorkspace.shared.open(AppConfig.defaultConfigURL)
                 }
