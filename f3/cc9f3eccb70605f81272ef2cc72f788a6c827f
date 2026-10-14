@@ -1,0 +1,21 @@
+docs/HANDOFF.md
+  s_51580e0e5f22f5::t_631024cc3e17fb 1-192
+GEMINI.md
+  s_51580e0e5f22f5::t_b2ee31c659c49e 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f3cc9f3eccb70605f81272ef2cc72f788a6c827f",
+  "prompts": {},
+  "sessions": {
+    "s_51580e0e5f22f5": {
+      "agent_id": {
+        "tool": "gemini",
+        "id": "ac483aae-29b2-4f2d-a617-dceb2356b9b8",
+        "model": "gemini-3.5-flash"
+      },
+      "human_author": "Salvador Serruya <js.serruya@gmail.com>"
+    }
+  }
+}
