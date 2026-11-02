@@ -38,4 +38,19 @@ final class SmoothScrollPhysicsTests: XCTestCase {
         // 0.4 + 0.4 = 0.8 rounds to 1, remainder -0.2
         XCTAssertEqual(step2.dy, 1.0)
     }
+
+    func testResetClearsVelocityAndAccumulator() {
+        var physics = SmoothScrollPhysics()
+        physics.addImpulse(deltaY: 50.0, deltaX: -30.0)
+        _ = physics.step(deltaTime: 1.0 / 120.0)
+
+        physics.reset()
+        XCTAssertEqual(physics.velocityY, 0.0)
+        XCTAssertEqual(physics.velocityX, 0.0)
+
+        let step = physics.step(deltaTime: 1.0 / 120.0)
+        XCTAssertTrue(step.isFinished)
+        XCTAssertEqual(step.dy, 0.0)
+        XCTAssertEqual(step.dx, 0.0)
+    }
 }

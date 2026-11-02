@@ -5,8 +5,9 @@ public struct ScrollEventPoster {
     public static func createEvent(
         deltaY: Double,
         deltaX: Double,
-        phase: UInt32 = 2,
-        momentumPhase: UInt32 = 0
+        phase: UInt32 = 0,
+        momentumPhase: UInt32 = 0,
+        isInverted: Bool = false
     ) -> CGEvent? {
         guard let event = CGEvent(
             scrollWheelEvent2Source: nil,
@@ -27,16 +28,28 @@ public struct ScrollEventPoster {
         event.setIntegerValueField(.scrollWheelEventFixedPtDeltaAxis2, value: Int64(deltaX * 65536.0))
         event.setIntegerValueField(.scrollWheelEventScrollPhase, value: Int64(phase))
         event.setIntegerValueField(.scrollWheelEventMomentumPhase, value: Int64(momentumPhase))
+
+        if let field137 = CGEventField(rawValue: 137) {
+            event.setIntegerValueField(field137, value: isInverted ? 1 : 0)
+        }
+
         return event
     }
 
     public static func post(
         deltaY: Double,
         deltaX: Double,
-        phase: UInt32 = 2,
-        momentumPhase: UInt32 = 0
+        phase: UInt32 = 0,
+        momentumPhase: UInt32 = 0,
+        isInverted: Bool = false
     ) {
-        guard let event = createEvent(deltaY: deltaY, deltaX: deltaX, phase: phase, momentumPhase: momentumPhase) else {
+        guard let event = createEvent(
+            deltaY: deltaY,
+            deltaX: deltaX,
+            phase: phase,
+            momentumPhase: momentumPhase,
+            isInverted: isInverted
+        ) else {
             return
         }
         // Post directly to user session matching Mac Mouse Fix (CGEventPost(1, ...))

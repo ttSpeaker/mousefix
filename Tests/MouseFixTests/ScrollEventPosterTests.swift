@@ -4,7 +4,7 @@ import CoreGraphics
 
 final class ScrollEventPosterTests: XCTestCase {
     func testCreateContinuousScrollEventSetsRequiredFields() {
-        guard let event = ScrollEventPoster.createEvent(deltaY: 24.5, deltaX: 0, phase: 2, momentumPhase: 0) else {
+        guard let event = ScrollEventPoster.createEvent(deltaY: 24.5, deltaX: 0, isInverted: true) else {
             XCTFail("Event creation failed")
             return
         }
@@ -13,8 +13,12 @@ final class ScrollEventPosterTests: XCTestCase {
         XCTAssertEqual(event.getIntegerValueField(.scrollWheelEventIsContinuous), 1)
         XCTAssertEqual(event.getIntegerValueField(.scrollWheelEventPointDeltaAxis1), 25) // rounded 24.5
         XCTAssertEqual(event.getIntegerValueField(.scrollWheelEventFixedPtDeltaAxis1), Int64(24.5 * 65536.0))
-        XCTAssertEqual(event.getIntegerValueField(.scrollWheelEventScrollPhase), 2)
+        XCTAssertEqual(event.getIntegerValueField(.scrollWheelEventScrollPhase), 0)
         XCTAssertEqual(event.getIntegerValueField(.scrollWheelEventMomentumPhase), 0)
+
+        if let field137 = CGEventField(rawValue: 137) {
+            XCTAssertEqual(event.getIntegerValueField(field137), 1)
+        }
 
         // Must pass through EventTapFilter without being re-intercepted
         let classification = EventTapFilter.classify(type: .scrollWheel, event: event)
