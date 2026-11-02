@@ -1,0 +1,26 @@
+Tests/MouseFixTests/ScrollEventPosterTests.swift
+  s_5cbd45a8427116::t_4f23ecfd5037f3 7,16,19-21
+  s_5cbd45a8427116::t_59020caa186a5d 22
+Tests/MouseFixTests/SmoothScrollPhysicsTests.swift
+  s_5cbd45a8427116::t_add8e85e9c60c4 41-55
+Sources/MouseFixCore/SmoothScrollEngine.swift
+  s_5cbd45a8427116::t_4440509ba4a8f8 31-38,63-69
+Sources/MouseFixCore/ScrollEventPoster.swift
+  s_5cbd45a8427116::t_2e0a4444de8647 8-10,31-35,42-44,46-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b68b4eadc9e9d46e7bdb5ec5e1a2e2f4d0eee03e",
+  "prompts": {},
+  "sessions": {
+    "s_5cbd45a8427116": {
+      "agent_id": {
+        "tool": "gemini",
+        "id": "03322413-a0f6-41c4-81ae-ec02724d067d",
+        "model": "gemini-3.5-flash"
+      },
+      "human_author": "Salvador Serruya <js.serruya@gmail.com>"
+    }
+  }
+}
